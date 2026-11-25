@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Projects & Payment Calculator | Asir Mustafa</title>
+  <style>
+    :root {
+      --bg: #0b1613; --surface: #12221e; --surface-2: #182d28;
+      --text: #f3f5f4; --muted: #a7b8b2; --accent: #c9a45c;
+      --border: rgba(201, 164, 92, 0.22); --wa: #25D366;
+    }
+    [data-theme="light"] {
+      --bg: #f6f5f0; --surface: #ffffff; --surface-2: #eceae1;
+      --text: #13221d; --muted: #4b5d57; --accent: #9c762c;
+      --border: rgba(19, 34, 29, 0.14);
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: var(--bg); color: var(--text); line-height: 1.65; }
+    a { color: inherit; text-decoration: none; }
+    .container { max-width: 1100px; margin: 0 auto; padding: 0 22px; }
+    header { position: sticky; top: 0; z-index: 50; background: rgba(11, 22, 19, 0.92); backdrop-filter: blur(10px); border-bottom: 1px solid var(--border); }
+    [data-theme="light"] header { background: rgba(246, 245, 240, 0.92); }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 70px; }
+    .brand { font-weight: 700; font-size: 1.15rem; color: var(--accent); }
+    .nav-links { display: flex; gap: 22px; align-items: center; flex-wrap: wrap; }
+    .nav-links a { font-size: 0.95rem; color: var(--muted); }
+    .nav-links a:hover, .nav-links a.active { color: var(--accent); font-weight: 600; }
+    .theme-btn { background: var(--surface-2); border: 1px solid var(--border); color: var(--text); padding: 6px 12px; border-radius: 8px; cursor: pointer; }
+    .page-head { padding: 60px 0 32px; }
+    .eyebrow { color: var(--accent); font-size: 0.85rem; text-transform: uppercase; letter-spacing: 1.5px; font-weight: 600; margin-bottom: 10px; }
+    h1 { font-size: clamp(1.9rem, 3.8vw, 2.7rem); margin-bottom: 12px; }
+    .lead { color: var(--muted); max-width: 740px; }
+    .filters { display: flex; gap: 10px; flex-wrap: wrap; margin: 26px 0; }
+    .filter-btn {
+      padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border);
+      background: var(--surface); color: var(--muted); cursor: pointer; font-size: 0.9rem;
+    }
+    .filter-btn.active { background: var(--accent); color: #0b1613; font-weight: 600; border-color: var(--accent); }
+    .project-card {
+      background: var(--surface); border: 1px solid var(--border); border-radius: 16px;
+      padding: 28px; margin-bottom: 24px;
+    }
+    .project-top { display: flex; justify-content: space-between; align-items: flex-start; flex-wrap: wrap; gap: 12px; margin-bottom: 18px; }
+    .badge { background: var(--surface-2); color: var(--accent); padding: 4px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600; }
+    .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+    .col-box { background: var(--surface-2); padding: 16px; border-radius: 12px; border: 1px solid var(--border); }
+    .col-box h4 { color: var(--accent); font-size: 0.88rem; text-transform: uppercase; letter-spacing: 0.6px; margin-bottom: 6px; }
+    .col-box p { font-size: 0.92rem; color: var(--muted); }
+    .btn {
+      display: inline-block; margin-top: 18px; padding: 11px 18px; border-radius: 9px;
+      background: var(--accent); color: #0b1613; font-weight: 600; font-size: 0.9rem;
+    }
+    .calc-box {
+      background: var(--surface); border: 1px solid var(--accent); border-radius: 18px;
+      padding: 30px; margin: 44px 0;
+    }
+    .calc-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 16px; margin: 20px 0; }
+    label { display: block; font-size: 0.84rem; color: var(--muted); margin-bottom: 6px; }
+    input, select {
+      width: 100%; padding: 11px; border-radius: 8px; border: 1px solid var(--border);
+      background: var(--surface-2); color: var(--text); font-size: 0.95rem;
+    }
+    .results { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 14px; margin-top: 18px; }
+    .res-item { background: var(--surface-2); padding: 16px; border-radius: 12px; border: 1px solid var(--border); }
+    .res-item span { display: block; font-size: 0.8rem; color: var(--muted); }
+    .res-item strong { font-size: 1.25rem; color: var(--accent); }
+    .disclaimer { font-size: 0.85rem; color: var(--muted); padding: 18px; background: var(--surface-2); border-radius: 10px; margin-bottom: 40px; }
+    footer { padding: 36px 0; border-top: 1px solid var(--border); color: var(--muted); font-size: 0.88rem; }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container nav">
+      <a href="asirpage.html" class="brand">Asir Mustafa</a>
+      <nav class="nav-links">
+        <a href="asirpage.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="projects.html" class="active">Projects & Calculator</a>
+        <a href="overseas.html">Overseas Buyers</a>
+        <button class="theme-btn" id="themeToggle">Theme</button>
+      </nav>
+    </div>
+  </header>
+
+  <main class="container">
+    <div class="page-head">
+      <div class="eyebrow">Honest Project Guide</div>
+      <h1>Projects I Work On — Advantages & Honest Risks</h1>
+      <p class="lead">No project is right for every buyer. Here is how I break down each option in Lahore so you can match the right asset to your timeline and risk comfort.</p>
+
+      <div class="filters">
+        <button class="filter-btn active" data-filter="all">All Projects</button>
+        <button class="filter-btn" data-filter="zameen">Zameen Developments</button>
+        <button class="filter-btn" data-filter="govt">Government-Backed</button>
+      </div>
+    </div>
+
+    <div id="vault" class="project-card" data-cat="zameen">
+      <div class="project-top">
+        <div>
+          <h2>Zameen Vault</h2>
+          <span style="color:var(--muted); font-size:0.92rem;">Lahore · Mixed-Use Commercial & Serviced Living</span>
+        </div>
+        <span class="badge">Zameen Developments</span>
+      </div>
+      <div class="cols">
+        <div class="col-box"><h4>What It Is</h4><p>A modern commercial and lifestyle hub developed by Zameen Developments, combining retail, corporate offices, and residential units.</p></div>
+        <div class="col-box"><h4>Advantages</h4><p>Backed by Zameen Developments’ execution track record, structured multi-year payment plan, and strong corporate/retail footfall potential.</p></div>
+        <div class="col-box"><h4>Honest Risks</h4><p>Under-construction timeline requires patience; best suited for investors who do not need immediate rental cash flow tomorrow.</p></div>
+        <div class="col-box"><h4>Best For</h4><p>Overseas buyers and professionals building medium-to-long-term commercial equity on installments.</p></div>
+      </div>
+      <a class="btn" href="https://wa.me/923000000000?text=Hi%20Asir%2C%20please%20share%20the%20current%20payment%20plan%20and%20available%20units%20for%20Zameen%20Vault." target="_blank">Request Zameen Vault Payment Plan</a>
+    </div>
+
+    <div id="arx" class="project-card" data-cat="zameen">
+      <div class="project-top">
+        <div>
+          <h2>Zameen ARX</h2>
+          <span style="color:var(--muted); font-size:0.92rem;">CBD Punjab / Main Boulevard Corridor, Lahore · Iconic High-Rise</span>
+        </div>
+        <span class="badge">Zameen Developments</span>
+      </div>
+      <div class="cols">
+        <div class="col-box"><h4>What It Is</h4><p>A flagship high-rise mixed-use tower offering luxury apartments, penthouses, retail, and corporate spaces in prime Lahore.</p></div>
+        <div class="col-box"><h4>Advantages</h4><p>Landmark vertical address, curated amenities, and strong appeal for high-end corporate and expat tenants upon completion.</p></div>
+        <div class="col-box"><h4>Honest Risks</h4><p>Higher ticket size compared to suburban plots; high-rise construction spans several years before handover.</p></div>
+        <div class="col-box"><h4>Best For</h4><p>Investors seeking a trophy vertical asset with capital appreciation during construction and premium rental yield later.</p></div>
+      </div>
+      <a class="btn" href="https://wa.me/923000000000?text=Hi%20Asir%2C%20please%20share%20the%20current%20payment%20plan%20and%20floor%20options%20for%20Zameen%20ARX." target="_blank">Request Zameen ARX Payment Plan</a>
+    </div>
+
+    <div id="opal" class="project-card" data-cat="zameen">
+      <div class="project-top">
+        <div>
+          <h2>Zameen Opal & Zameen Jade</h2>
+          <span style="color:var(--muted); font-size:0.92rem;">Lahore · Residential Apartments</span>
+        </div>
+        <span class="badge">Zameen Developments</span>
+      </div>
+      <div class="cols">
+        <div class="col-box"><h4>What It Is</h4><p>Purpose-built residential apartment developments designed for modern family living in established Lahore neighborhoods.</p></div>
+        <div class="col-box"><h4>Advantages</h4><p>Practical apartment layouts, gated security, and strong end-user demand from Lahore families and overseas visitors.</p></div>
+        <div class="col-box"><h4>Honest Risks</h4><p>Inventory in mature residential buildings moves quickly, so unit selection (floor & orientation) matters for resale.</p></div>
+        <div class="col-box"><h4>Best For</h4><p>Families wanting a secure Lahore residence or steady residential rental income.</p></div>
+      </div>
+      <a class="btn" href="https://wa.me/923000000000?text=Hi%20Asir%2C%20please%20share%20available%20apartment%20options%20in%20Zameen%20Opal%20and%20Zameen%20Jade." target="_blank">Request Opal & Jade Availability</a>
+    </div>
+
+    <div id="cbd" class="project-card" data-cat="govt">
+      <div class="project-top">
+        <div>
+          <h2>CBD Punjab (Central Business District)</h2>
+          <span style="color:var(--muted); font-size:0.92rem;">Walton / Gulberg Corridor, Lahore · Master-Planned Business District</span>
+        </div>
+        <span class="badge">Government-Backed</span>
+      </div>
+      <div class="cols">
+        <div class="col-box"><h4>What It Is</h4><p>Lahore’s flagship commercial and mixed-use business district spearheaded by the Punjab Central Business District Development Authority.</p></div>
+        <div class="col-box"><h4>Advantages</h4><p>Government-backed master infrastructure, central connectivity, and institutional-grade zoning for commercial growth.</p></div>
+        <div class="col-box"><h4>Honest Risks</h4><p>Requires verifying whether you are buying directly in a CBD-approved private tower vs. auctioned land, as payment terms vary widely.</p></div>
+        <div class="col-box"><h4>Best For</h4><p>Medium-to-long-term commercial investors prioritizing central location and infrastructure backing.</p></div>
+      </div>
+      <a class="btn" href="https://wa.me/923000000000?text=Hi%20Asir%2C%20I%20want%20to%20understand%20the%20verified%20investment%20options%20in%20CBD%20Punjab." target="_blank">Discuss CBD Punjab Options</a>
+    </div>
+
+    <!-- Interactive Installment & Overseas Currency Estimator -->
+    <div class="calc-box">
+      <h2>Interactive Installment & Overseas Currency Estimator</h2>
+      <p style="color:var(--muted); font-size:0.94rem;">Estimate your down payment and monthly installment in PKR—plus live approximate equivalents in GBP, AED, or USD.</p>
+      <div class="calc-grid">
+        <div>
+          <label for="price">Total Property Price (PKR)</label>
+          <input type="number" id="price" value="25000000" step="500000" />
+        </div>
+        <div>
+          <label for="downPct">Down Payment (%)</label>
+          <input type="number" id="downPct" value="30" min="10" max="100" />
+        </div>
+        <div>
+          <label for="months">Installment Duration (Months)</label>
+          <select id="months">
+            <option value="24">24 Months (2 Years)</option>
+            <option value="36" selected>36 Months (3 Years)</option>
+            <option value="48">48 Months (4 Years)</option>
+          </select>
+        </div>
+        <div>
+          <label for="currency">Display Foreign Currency</label>
+          <select id="currency">
+            <option value="GBP" data-rate="355">GBP (£) — UK</option>
+            <option value="AED" data-rate="76">AED — UAE</option>
+            <option value="USD" data-rate="278">USD ($) — USA</option>
+          </select>
+        </div>
+      </div>
+      <div class="results">
+        <div class="res-item"><span>Down Payment (PKR)</span><strong id="outDown">PKR 7,500,000</strong></div>
+        <div class="res-item"><span>Monthly Installment (PKR)</span><strong id="outMonthly">PKR 486,111</strong></div>
+        <div class="res-item"><span id="fxLabel">Monthly in GBP (Approx.)</span><strong id="outFx">£1,369 / mo</strong></div>
+      </div>
+    </div>
+
+    <div class="disclaimer">
+      <strong>Standing Disclaimer:</strong> Project prices, payment schedules, construction timelines, and exchange rates are indicative and change regularly. Always request the official current developer schedule and verify NOCs before booking.
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">© 2026 Asir Mustafa · Lahore, Pakistan.</div>
+  </footer>
+
+  <script>
+    const toggle = document.getElementById("themeToggle");
+    document.documentElement.setAttribute("data-theme", localStorage.getItem("theme") || "dark");
+    toggle.addEventListener("click", () => {
+      const next = document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      document.documentElement.setAttribute("data-theme", next);
+      localStorage.setItem("theme", next);
+    });
+
+    // Category filter
+    document.querySelectorAll(".filter-btn").forEach(btn => {
+      btn.addEventListener("click", () => {
+        document.querySelectorAll(".filter-btn").forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+        const f = btn.dataset.filter;
+        document.querySelectorAll(".project-card").forEach(card => {
+          card.style.display = (f === "all" || card.dataset.cat === f) ? "block" : "none";
+        });
+      });
+    });
+
+    // Calculator
+    function calc() {
+      const price = parseFloat(document.getElementById("price").value) || 0;
+      const downPct = parseFloat(document.getElementById("downPct").value) || 0;
+      const months = parseInt(document.getElementById("months").value) || 36;
+      const curSel = document.getElementById("currency");
+      const cur = curSel.value;
+      const rate = parseFloat(curSel.options[curSel.selectedIndex].dataset.rate);
+
+      const down = price * (downPct / 100);
+      const remaining = Math.max(0, price - down);
+      const monthly = remaining / months;
+      const fxMonthly = monthly / rate;
+
+      document.getElementById("outDown").textContent = "PKR " + Math.round(down).toLocaleString();
+      document.getElementById("outMonthly").textContent = "PKR " + Math.round(monthly).toLocaleString();
+      document.getElementById("fxLabel").textContent = `Monthly in ${cur} (Approx.)`;
+      document.getElementById("outFx").textContent = `${cur} ${Math.round(fxMonthly).toLocaleString()} / mo`;
+    }
+    ["price", "downPct", "months", "currency"].forEach(id => document.getElementById(id).addEventListener("input", calc));
+    calc();
+  </script>
+</body>
+</html>
